@@ -1,3 +1,5 @@
+import Link from 'next/link' // Add this import at the top
+
 export default function AuthError() {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -9,12 +11,12 @@ export default function AuthError() {
             </p>
           </div>
           <div className="flex justify-center">
-            <a
+            <Link
               href="/"
               className="rounded-full bg-blue-500 px-6 py-2 font-semibold text-white hover:bg-blue-600"
             >
               Return Home
-            </a>
+            </Link>
           </div>
         </div>
       </div>

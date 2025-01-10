@@ -5,7 +5,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const headersList = headers()
   
   return (
     <html lang="en">
