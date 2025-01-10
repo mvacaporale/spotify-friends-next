@@ -12,7 +12,6 @@ export async function GET(request: Request) {
     // Log state before code exchange
     console.log('Client state before exchange:', {
       auth: await supabase.auth.getSession(),
-      headers: supabase.rest.headers
     })
 
     const { data: { session }, error } = await supabase.auth.exchangeCodeForSession(code)
@@ -20,7 +19,6 @@ export async function GET(request: Request) {
     // Log state after code exchange
     console.log('Client state after exchange:', {
       auth: await supabase.auth.getSession(),
-      headers: supabase.rest.headers
     })
 
 
