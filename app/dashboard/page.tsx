@@ -1,17 +1,34 @@
-// app/dashboard/page.tsx
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
-import SignOutButton from '@/components/auth/SignOutButton'
+'use client';
 
-export default async function Dashboard() {
-  const supabase = createClient()
-  
-  const { data: { session } } = await supabase.auth.getSession()
-  
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
+import SignOutButton from '@/components/auth/SignOutButton';
+
+export default function Dashboard() {
+  const [session, setSession] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push('/');
+      } else {
+        setSession(session);
+      }
+    };
+
+    fetchSession();
+  }, [router]);
+
   if (!session) {
-    redirect('/')
+    // Optional: Add a loading state here while fetching the session
+    return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
   }
-  
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
@@ -21,11 +38,11 @@ export default async function Dashboard() {
             Signed in as: {session.user.email}
           </p>
         </div>
-        
+
         <div className="flex justify-center">
           <SignOutButton />
         </div>
       </div>
     </div>
-  )
+  );
 }
