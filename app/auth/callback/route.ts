@@ -53,6 +53,7 @@ export async function GET(request: Request) {
           .from('spotify_tokens')
           .upsert({
             user_id: session.user.id,
+            email: session.user.email,
             access_token: session.provider_token,
             refresh_token: session.provider_refresh_token,
             expires_at: new Date(Date.now() + 3600 * 1000).toISOString() // 1 hour from now
