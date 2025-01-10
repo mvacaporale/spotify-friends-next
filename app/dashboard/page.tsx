@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import SignOutButton from '@/components/auth/SignOutButton';
+import { Session } from '@supabase/supabase-js'; // Add this import
 
 export default function Dashboard() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<Session | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -25,7 +26,6 @@ export default function Dashboard() {
   }, [router]);
 
   if (!session) {
-    // Optional: Add a loading state here while fetching the session
     return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
   }
 
