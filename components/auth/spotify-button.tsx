@@ -23,7 +23,12 @@ export default function SpotifyButton() {
 
       if (error) throw error
     } catch (error) {
-      setError(error.message)
+      // Type guard for error handling
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('An unknown error occurred')
+      }
     } finally {
       setIsLoading(false)
     }
