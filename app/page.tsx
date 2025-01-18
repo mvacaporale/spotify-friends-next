@@ -175,7 +175,8 @@ export default function Home() {
                   <SpotifyButton />
                 {/* </div> */}
                 <p className="mb-4 text-emerald-500">
-                  Join over 20,000 music lovers
+                  {/* Join over {userCount.toLocaleString()} music lovers */}
+                  Join over 5 music lovers
                 </p>
                 <img
                   src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
