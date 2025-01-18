@@ -15,7 +15,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { createClient } from '@/lib/supabase/client';
-import SpotifyButton from '@/components/auth/spotify-button';
+import SpotifyButton from '@/components/auth/SpotifyButton';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
