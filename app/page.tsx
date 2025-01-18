@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
 import SpotifyButton from '@/components/auth/SpotifyButton';
 import SignOutButton from '@/components/auth/SignOutButton';
 
