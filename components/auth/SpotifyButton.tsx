@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react"
 
 export default function SpotifyButton() {
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null);
 
   const signInWithSpotify = async () => {
     try {
