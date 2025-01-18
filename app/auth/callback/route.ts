@@ -15,31 +15,15 @@ export async function GET(request: Request) {
     })
 
     const { data: { session }, error } = await supabase.auth.exchangeCodeForSession(code)
-
+    if (error) {
+      console.error('Auth callback error:', error)
+      // Handle error appropriately
+    } 
+  
     // Log state after code exchange
     console.log('Client state after exchange:', {
       auth: await supabase.auth.getSession(),
     })
-
-
-    // if (true) {
-    //     try {
-    //       // Store the tokens
-    //       const { error: storageError } = await supabase
-    //         .from('spotify_tokens')
-    //         .upsert({
-    //           user_id: "345",
-    //           access_token: "access_123",
-    //           refresh_token: "refresh_123",
-    //           expires_at: new Date(Date.now() + 3600 * 1000).toISOString() // 1 hour from now
-    //         })
-            
-    //       if (storageError) throw storageError
-    //     } catch (error) {
-    //       console.error('Token storage error:', error)
-    //       // Continue anyway as the auth was successful
-    //     }
-
 
     if (error) {
       console.error('Auth error:', error)
