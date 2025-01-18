@@ -20,7 +20,7 @@ import SignOutButton from '@/components/auth/SignOutButton';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
