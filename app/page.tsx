@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation';
 import {
-  Music,
-  ArrowRight,
   LogIn,
   Users,
   Calendar,
@@ -15,10 +12,10 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client';
 import SpotifyButton from '@/components/auth/SpotifyButton';
 import SignOutButton from '@/components/auth/SignOutButton';
-
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -87,9 +84,11 @@ export default function Home() {
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <button className="flex items-center gap-2 text-neutral-200 px-4 py-2 rounded-full">
             {/* <Music size={16} className="text-emerald-500" /> */}
-            <img 
+            <Image 
               src="/mirror-ball-edit.png" 
               alt="Disco Ball"
+              width={24}  // 6 * 4 = 24px (w-6 in Tailwind)
+              height={24} // 6 * 4 = 24px (h-6 in Tailwind)
               className="w-6 h-6"
             />
             <span className="font-semibold">Spotify Friends</span>
@@ -166,7 +165,7 @@ export default function Home() {
             </h1>
             <p className="text-xl mb-8 text-neutral-400">
               Get a weekly playlist featuring the best tracks from people you
-              follow. It's like having your coolest friends make you a mixtape
+              follow. It&apos;s like having your coolest friends make you a mixtape
               every week.
             </p>
             {!user ? (
@@ -208,7 +207,7 @@ export default function Home() {
           </h2>
           <p className="mb-12 text-neutral-400 text-lg">
             Connect your Spotify account, follow your friends, and get a
-            personalized playlist every Monday based on what they're listening
+            personalized playlist every Monday based on what they&apos;re listening
             to most.
           </p>
           <div className="space-y-6 mb-16">
@@ -336,7 +335,7 @@ export default function Home() {
           </h2>
           <p className="mb-12 text-neutral-400 text-lg">
             Connect your Spotify account, follow your friends, and get a
-            personalized playlist every Monday based on what they're listening
+            personalized playlist every Monday based on what they&apos;re listening
             to most.
           </p>
           <div className="space-y-6 mb-16">
