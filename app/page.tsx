@@ -1,45 +1,58 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import {
   Music,
   ArrowRight,
   LogIn,
   Users,
   Calendar,
-  Lock,
   Sparkles,
   Sliders,
   Menu,
+  Coffee,
   X,
   ChevronDown,
 } from "lucide-react";
 import { createClient } from '@/lib/supabase/client';
 import SpotifyButton from '@/components/auth/SpotifyButton';
+import SignOutButton from '@/components/auth/SignOutButton';
+
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openFaq, setOpenFaq] = useState(null);
+  const [user, setUser] = useState(null);
 
-    // useEffect(() => {
-    //   const supabase = createClient();
+  useEffect(() => {
+    const supabase = createClient();
 
-    //   const checkSession = async () => {
-    //     const { data: { session } } = await supabase.auth.getSession();
-    //     if (session) {
-    //       router.push('/dashboard');
-    //     }
-    //   };
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setUser(session.user);
+      }
+    };
 
-    //   checkSession();
-    // }, [router]);
+    checkSession();
+
+    // Subscribe to auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
   const faqs = [
     {
       question: "What is the 'My Top Tracks' playlist?",
@@ -67,31 +80,28 @@ export default function Home() {
         "You can optionally add up to three songs per week to your top tracks playlist by hand. These will then be shared to your followers' weekly mix with your other top tracks.",
     },
   ];
+
   return (
     <div className="w-full min-h-screen bg-neutral-900">
       <nav className="fixed top-0 left-0 right-0 bg-neutral-900/95 text-neutral-200 p-4 z-50 backdrop-blur-sm border-b border-neutral-800">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <button className="flex items-center gap-2 text-neutral-200 px-4 py-2 rounded-full">
-            <Music size={16} className="text-emerald-500" />
+            {/* <Music size={16} className="text-emerald-500" /> */}
+            <img 
+              src="/mirror-ball-edit.png" 
+              alt="Disco Ball"
+              className="w-6 h-6"
+            />
             <span className="font-semibold">Spotify Friends</span>
           </button>
           <div className="hidden md:flex gap-6">
-            <a
-              href="#setup"
-              className="hover:text-emerald-500 transition-colors"
-            >
+            <a href="#setup" className="hover:text-emerald-500 transition-colors">
               Setup
             </a>
-            <a
-              href="#how-it-works"
-              className="hover:text-emerald-500 transition-colors"
-            >
+            <a href="#how-it-works" className="hover:text-emerald-500 transition-colors">
               How it Works
             </a>
-            <a
-              href="#support"
-              className="hover:text-emerald-500 transition-colors"
-            >
+            <a href="#support" className="hover:text-emerald-500 transition-colors">
               Support
             </a>
           </div>
@@ -142,42 +152,51 @@ export default function Home() {
           </div>
         </div>
       </nav>
+
       <section
         id="setup"
         className="bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-neutral-200 pt-32 pb-20 px-4"
       >
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm tracking-widest mb-4 text-emerald-500">
-            SPOTIFY FRIENDS
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-            Discover music through friends you trust
-          </h1>
-          <p className="text-xl mb-8 text-neutral-400">
-            Get a weekly playlist featuring the best tracks from people you
-            follow. It's like having your coolest friends make you a mixtape
-            every week.
-          </p>
-          <a
-            href="#how-it-works"
-            className="bg-emerald-500 text-neutral-100 px-8 py-3 rounded-full font-medium hover:bg-emerald-600 transition-colors inline-flex items-center gap-2 mb-12"
-          >
-            Connect with Friends
-            <ArrowRight size={18} />
-          </a>
-          {/* <SpotifyButton /> */}
-          <div>
-            <p className="mb-4 text-emerald-500">
-              Join over 20,000 music lovers
+            <p className="text-sm tracking-widest mb-4 text-emerald-500">
+              SPOTIFY FRIENDS
             </p>
-            <img
-              src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
-              alt="Spotify Logo"
-              className="h-8 mx-auto opacity-90"
-            />
-          </div>
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6">
+              Discover music through friends you trust
+            </h1>
+            <p className="text-xl mb-8 text-neutral-400">
+              Get a weekly playlist featuring the best tracks from people you
+              follow. It's like having your coolest friends make you a mixtape
+              every week.
+            </p>
+            {!user ? (
+              <>
+                {/* <div className="flex flex-col items-center gap-4"> */}
+                  <SpotifyButton />
+                {/* </div> */}
+                <p className="mb-4 text-emerald-500">
+                  Join over 20,000 music lovers
+                </p>
+                <img
+                  src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
+                  alt="Spotify Logo"
+                  className="h-8 mx-auto opacity-90"
+                />
+            </>) : (
+              <> 
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <p className="text-2xl font-bold  text-emerald-500 ">Welcome back! {user.email}</p>
+                </div>
+                <div className="flex justify-center">
+                  <SignOutButton />
+                </div>
+              </>
+            ) }
         </div>
       </section>
+
+      {/* Rest of the sections remain the same */}
+      {/* How it works section */}
       <section
         id="how-it-works"
         className="bg-neutral-800 px-4 py-16 border-t border-neutral-700"
@@ -211,6 +230,136 @@ export default function Home() {
                 step: "3",
                 title: "Weekly Updates",
                 content: "New playlist every Friday in your Spotify library",
+              },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-6 relative">
+                <div className="flex-shrink-0 w-12 h-12 bg-neutral-700 rounded-full flex items-center justify-center border border-neutral-600">
+                  <item.icon className="w-6 h-6 text-emerald-500" />
+                </div>
+                {i < 2 && (
+                  <div className="absolute left-6 top-12 w-[1px] h-10 bg-neutral-700" />
+                )}
+                <div className="flex-1 pt-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-emerald-500 font-mono text-sm">
+                      STEP {item.step}
+                    </span>
+                    <h3 className="text-lg font-semibold text-neutral-200">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <p className="text-neutral-400">{item.content}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="grid sm:grid-cols-2 gap-8">
+            {[
+              {
+                icon: Sparkles,
+                title: "Always Free",
+                content: "No subscription needed, just connect and enjoy",
+              },
+              {
+                icon: Sliders,
+                title: "Fully Customizable",
+                content: "Select which friends influence your weekly mix",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-neutral-900/50 rounded-xl p-6 hover:bg-neutral-900 transition-colors border border-neutral-700"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <item.icon className="w-5 h-5 text-emerald-500" />
+                  <h3 className="text-lg font-semibold text-neutral-200">
+                    {item.title}
+                  </h3>
+                </div>
+                <p className="text-neutral-400">{item.content}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ section */}
+      <section className="bg-neutral-900 px-4 py-16 border-t border-neutral-800">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-neutral-100 text-center">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="border border-neutral-800 rounded-lg overflow-hidden"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-6 py-4 flex justify-between items-center hover:bg-neutral-800/50 transition-colors"
+                >
+                  <span className="text-left text-lg font-medium text-neutral-200">
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-emerald-500 transition-transform ${
+                      openFaq === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  className={`
+                    overflow-hidden transition-all duration-300 ease-in-out
+                    ${openFaq === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+                  `}
+                >
+                  <p className="px-6 py-4 text-neutral-400 border-t border-neutral-800">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Support section */}
+      <section
+        id="how-it-works"
+        className="bg-neutral-800 px-4 py-16 border-t border-neutral-700"
+      >
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6 text-neutral-100">
+            How does Spotify Friends work?
+          </h2>
+          <p className="mb-12 text-neutral-400 text-lg">
+            Connect your Spotify account, follow your friends, and get a
+            personalized playlist every Monday based on what they're listening
+            to most.
+          </p>
+          <div className="space-y-6 mb-16">
+            {[
+              {
+                icon: LogIn,
+                step: "1",
+                title: "Connect Your Account",
+                content:
+                  "Quick setup with Spotify login creates your 'My Top Tracks' playlist",
+              },
+              {
+                icon: Users,
+                step: "2",
+                title: "Follow Friends",
+                content:
+                  "Add your friends' top tracks playlists to your Spotify profile",
+              },
+              {
+                icon: Calendar,
+                step: "3",
+                title: "Weekly Updates",
+                content:
+                  "Every Friday, find a mix of top tracks in your 'Friend Favorites' playlist",
               },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-6 relative">
@@ -305,12 +454,12 @@ export default function Home() {
         className="bg-neutral-900 px-4 py-16 border-t border-neutral-800"
       >
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4 text-neutral-100">
-            Need help with Spotify Friends?
+          <h2 className="text-3xl font-bold mb-8 text-neutral-100 text-center">
+          Help Make Spotify Friends Better
           </h2>
-          <p className="text-neutral-400">
-            Message @mcaporale on Twitter and I'll help you get connected with
-            your friends.
+          <p className="text-neutral-400 mb-6">
+            Having trouble? Any thoughts on how improve the app?
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfRaGleDjC21bg38YDd3kUFCKPjPDkqHvuwyS1878GmSj9dVg/viewform" target="_blank" rel="noopener noreferrer" className="text-emerald-500 hover:text-emerald-400 transition-colors"> Please let us know!</a>
           </p>
         </div>
       </section>
@@ -319,8 +468,17 @@ export default function Home() {
           <p className="text-neutral-400 text-sm">
             Made with ♥️ by Michaelangelo Caporale
           </p>
+          <a
+            href="https://www.buymeacoffee.com/your-username"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-emerald-500 hover:text-emerald-400 transition-colors mt-2 text-sm"
+          >
+            <Coffee size={14} />
+            <span>Buy me a coffee</span>
+          </a>
           <p className="text-neutral-500 text-sm mt-2">
-            © {new Date().getFullYear()} Spotify Friends
+            © {new Date().getFullYear()}
           </p>
         </div>
       </footer>
