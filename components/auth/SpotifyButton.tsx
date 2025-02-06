@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { ArrowRight } from "lucide-react"
-import querystring from 'querystring';
 
 // Export the props interface
 export interface SpotifyButtonProps {

@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
   // Check if user is already logged in.
   const supabase = await createClient();
-  const { data: { session }, error: authError } = await supabase.auth.getSession();
+  const { data: { session } } = await supabase.auth.getSession();
 
   console.log("Here is the session user (if there)", session?.user?.id)
 
