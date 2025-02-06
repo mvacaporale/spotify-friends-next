@@ -15,13 +15,22 @@ import {
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
-import SpotifyButton from '@/components/auth/SpotifyButton';
+import SpotifyButton, { SpotifyButtonProps } from '@/components/auth/SpotifyButton';
 import SignOutButton from '@/components/auth/SignOutButton';
+import { useSearchParams } from 'next/navigation'
+import { Copy } from 'lucide-react';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [followUrl, setFollowUrl] = useState('');
+
+  const searchParams = useSearchParams()
+  const inviterId = searchParams.get('inviterId')
+  const followStatus = searchParams.get('follow_status')
+
+  console.log("On the hone page with inviterId=", inviterId)
 
   useEffect(() => {
     const supabase = createClient();
@@ -30,10 +39,12 @@ export default function Home() {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         setUser(session.user);
-      }
+        console.log("Session exists with user:", session.user.id)
+  }
     };
 
     checkSession();
+    console.log("User set to ", user?.id)
 
     // Subscribe to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -42,6 +53,18 @@ export default function Home() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    setFollowUrl(`${window.location.origin}/follow?inviterId=${user?.id}`);
+  }, [user?.id]);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(followUrl);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -172,11 +195,12 @@ export default function Home() {
             {!user ? (
               <>
                 {/* <div className="flex flex-col items-center gap-4"> */}
-                  <SpotifyButton />
+                  <SpotifyButton inviterId={inviterId ?? undefined}/>
                 {/* </div> */}
                 <p className="mb-4 text-emerald-500">
                   {/* Join over {userCount.toLocaleString()} music lovers */}
-                  Join over 5 music lovers
+                  {/* Join over 5 music lovers */}
+                  {followStatus === 'initiated' ? "You've been invited to follow your friends music!" : "Join over 5 music lovers"}
                 </p>
                 <img
                   src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
@@ -186,7 +210,21 @@ export default function Home() {
             </>) : (
               <> 
                 <div className="flex items-center justify-center gap-3 mb-6">
-                  <p className="text-2xl font-bold  text-emerald-500 ">Welcome back! {user.email}</p>
+                  <p className="text-2xl font-bold  text-emerald-500 ">
+                    {followStatus === 'success' ? "You're now following your friend's music!" : followStatus === 'failed' ? "You're signed in, but following your friend failed..." : `Welcome back! ${user.email}` }
+                  </p>
+                </div>
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <p className="text-lg font-medium mb-4">
+                    Share this link to the friends you want to follow
+                  </p>
+                    <button
+                      onClick={copyToClipboard}
+                      className="p-2 rounded hover:bg-gray-100"
+                    >
+                      <Copy className="w-5 h-5" />
+                    </button>
+
                 </div>
                 <div className="flex justify-center">
                   <SignOutButton />

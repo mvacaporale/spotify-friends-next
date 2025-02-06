@@ -3,21 +3,37 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { ArrowRight } from "lucide-react"
+import querystring from 'querystring';
 
-export default function SpotifyButton() {
+// Export the props interface
+export interface SpotifyButtonProps {
+  inviterId?: string;
+}
+
+
+export default function SpotifyButton({ inviterId }: SpotifyButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null);
+
+  console.log("In the SpotifyButton with with invitedId=", inviterId)
 
   const signInWithSpotify = async () => {
     try {
       setIsLoading(true)
       setError(null)
 
+      // // Create callback URL with inviterId query parameter (if present).
+      const callbackUrl = new URL(`${window.location.origin}/auth/callback`)
+      if (inviterId) {
+        callbackUrl.searchParams.set('inviterId', inviterId)
+      }
+      console.log("Setting the redirect url", callbackUrl.toString())
+
       const supabase = createClient()
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'spotify',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: callbackUrl.toString(),  // Use the URL with query parameters
           scopes: "user-read-email user-top-read playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-follow-read user-library-read",
         },
       })

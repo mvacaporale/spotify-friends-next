@@ -5,6 +5,7 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
   const next = requestUrl.searchParams.get('next') ?? '/'
+  const inviterId = requestUrl.searchParams.get('inviterId')
 
   if (code) {
     const supabase = await createClient()
@@ -50,7 +51,18 @@ export async function GET(request: Request) {
       }
     }
 
-    return NextResponse.redirect(new URL(next, request.url))
+    
+ 
+    // If inviterId exist present, will send them to the follow endpoint
+    if (inviterId) {
+      console.log("Now routing the auth callback to the 'follow' endpoint.")
+      const targetUrl = new URL('/follow', request.url)
+      targetUrl.searchParams.set('inviterId', inviterId)
+      return NextResponse.redirect(targetUrl)
+    } 
+
+    // Otherwise, they'll be sent back home.
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
   return NextResponse.redirect(new URL('/auth/error', request.url))
