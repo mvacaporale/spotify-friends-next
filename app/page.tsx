@@ -19,8 +19,17 @@ import SpotifyButton from '@/components/auth/SpotifyButton';
 import SignOutButton from '@/components/auth/SignOutButton';
 import { useSearchParams } from 'next/navigation'
 import { Copy } from 'lucide-react';
+import { Suspense } from "react";
 
 export default function Home() {
+  return (
+    <Suspense>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+function HomeContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
