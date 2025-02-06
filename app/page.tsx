@@ -124,7 +124,7 @@ function HomeContent() {
               height={24} // 6 * 4 = 24px (h-6 in Tailwind)
               className="w-6 h-6"
             />
-            <span className="font-semibold">Spotify Friends</span>
+            <span className="font-semibold">Songs of a Feather</span>
           </button>
           <div className="hidden md:flex gap-6">
             <a href="#setup" className="hover:text-emerald-500 transition-colors">
@@ -191,10 +191,10 @@ function HomeContent() {
       >
         <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm tracking-widest mb-4 text-emerald-500">
-              SPOTIFY FRIENDS
+              SONGS OF A FEATHER
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-              Discover music through friends you trust
+              Discover Music Through Friends 
             </h1>
             <p className="text-xl mb-8 text-neutral-400">
               Get a weekly playlist featuring the best tracks from people you
@@ -250,7 +250,7 @@ function HomeContent() {
       >
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-neutral-100">
-            How does Spotify Friends work?
+            How does it work?
           </h2>
           <p className="mb-12 text-neutral-400 text-lg">
             Connect your Spotify account, follow your friends, and get a
@@ -374,7 +374,7 @@ function HomeContent() {
       >
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8 text-neutral-100 text-center">
-          Help Make Spotify Friends Better
+          Help Improve Songs of a Feather
           </h2>
           <p className="text-neutral-400 mb-6">
             Having trouble? Any thoughts on how improve the app?
