@@ -254,7 +254,7 @@ function HomeContent() {
           </h2>
           <p className="mb-12 text-neutral-400 text-lg">
             Connect your Spotify account, follow your friends, and get a
-            personalized playlist every Monday based on what they&apos;re listening
+            personalized playlist every Friday based on what they&apos;re listening
             to most.
           </p>
           <div className="space-y-6 mb-16">
