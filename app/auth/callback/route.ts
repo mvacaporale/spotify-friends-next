@@ -31,8 +31,8 @@ export async function GET(request: Request) {
     }
 
     if (session?.provider_token) {
+      // Store the user's access and refresh tokens.
       try {
-        // Store the tokens
         const { error: storageError } = await supabase
           .from('spotify_tokens')
           .upsert({
@@ -45,9 +45,28 @@ export async function GET(request: Request) {
           
         if (storageError) throw storageError
       } catch (error) {
-        console.error('Token storage error:', error)
         // Continue anyway as the auth was successful
+        console.error('Token storage error:', error)
       }
+
+
+      // Instantiate the user's playlists.
+      const apiBaseUrl = process.env.BACKEND_BASE_URL;
+      console.log("Sending post request to instantiate new user.", apiBaseUrl)
+      try {
+        await fetch(`${apiBaseUrl}/webhook/user-created`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: session.user.id,
+          })
+        });
+      } catch (error) {
+        console.error("Error creating new user playlists:", error);
+      }
+    
     }
 
     
