@@ -1,0 +1,41 @@
+.markdownContent {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .markdownContent h1,
+  .markdownContent h2,
+  .markdownContent h3,
+  .markdownContent h4,
+  .markdownContent h5,
+  .markdownContent h6 {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+  
+  .markdownContent h1:first-child,
+  .markdownContent h2:first-child {
+    margin-top: 0;
+  }
+  
+  .markdownContent p {
+    margin-bottom: 1.2em;
+  }
+  
+  .markdownContent ul,
+  .markdownContent ol {
+    margin-bottom: 1.5em;
+    padding-left: 2em;
+  }
+  
+  .markdownContent li {
+    margin-bottom: 0.5em;
+  }
+  
+  .markdownContent hr {
+    margin: 2.5em 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+  }

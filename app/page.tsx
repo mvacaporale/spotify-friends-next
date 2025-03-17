@@ -211,6 +211,22 @@ function HomeContent() {
                   {/* Join over 5 music lovers */}
                   {followStatus === 'initiated' ? "You've been invited to follow your friends music!" : "Join over 5 music lovers"}
                 </p>
+                <p className="text-sm text-neutral-500 mb-12">
+                  By connecting, you agree to our{' '}
+                  <a
+                    href="/terms"
+                    className="hover:text-white transition-colors"
+                  >
+                    Terms of Service
+                  </a>{' '}
+                  and{' '}
+                  <a
+                    href="/privacy"
+                    className="hover:text-white transition-colors"
+                  >
+                    Privacy Policy
+                  </a>
+                </p>
                 <img
                   src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
                   alt="Spotify Logo"
