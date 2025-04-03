@@ -13,11 +13,13 @@ We respect your privacy and are committed to protecting your personal informatio
 
 ### 2.1 Information Authorized Through Spotify
 
-When you connect our Add-on to your Spotify account, we may receive and process certain information from your Spotify account, which may include:
+When you connect our Add-on to your Spotify account, we may receive and process certain information from your Spotify account, which includes:
 
 - Basic profile information (such as your username, profile picture, and email)
-- Your playlists (names, contents, and settings)
-- Your listening history and activity
+- Your public playlists (those publicly viewable on your user profile)
+- Your listening history and activity (specifically your top tracks)
+- User-followership (whether or not you follow another user of our add-on on Spotify)
+- The ability to add tracks to your playlists, specifically only those created through your account related to this service
 
 We only request access to information necessary for the functionality of our Add-on.
 
@@ -32,7 +34,6 @@ We may collect information that you voluntarily provide when using our Add-on, s
 
 When you use our Add-on, we may automatically collect certain information, including:
 
-- Usage data (features used, time spent, interactions)
 - Performance data and error logs
 
 ## 3. HOW WE USE YOUR INFORMATION
@@ -43,13 +44,12 @@ We use the information we collect for the following purposes:
 
 - To authenticate you with Spotify and enable the Add-on's functionality
 - To maintain, improve, and develop new features
-- To understand how users interact with the Add-on
 - To diagnose technical problems and optimize performance
 
 ### 3.2 Communications
 
 - To respond to your inquiries and support requests
-- To send important notices, such as updates or changes to our terms
+- To send important notices, such as updates or changes to our terms (if you have opted in)
 - To provide information about new features or services (if you have opted in)
 
 ### 3.3 Legal and Security Purposes
@@ -63,15 +63,15 @@ We use the information we collect for the following purposes:
 
 ### 4.1 Data Storage
 
-- All data is securely stored via Supabase, an open-source PostgreSQL database designed for backend development for web
-- We will *never* store your username and password
+All data is securely stored via Supabase, an open-source PostgreSQL database designed for backend development for web
+- We will *never* store your Spotify username and password
 - We specifically store your email address and authorization token and refresh token, which are used to pull information from Spotify's API related to your account (such as your playlists and recent top songs).
-- You can revoke our access to these tokens anytime by going to "Manage Apps" in your SPotify settings.
-- We implement appropriate technical and organizational measures to protect your information
+- You can revoke our access to these tokens anytime by going to "Manage Apps" in your Spotify settings.
+- The database used implements measures to protect your information (only your account can read and access your data from the database)
 
 ### 4.2 Data Retention
 
-We retain your information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. When your information is no longer needed, we will securely delete or anonymize it.
+We retain your information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. When your information is no longer needed, we will securely and permanently delete it. You may use "Delete Account" on the dashboard at any time to initiate this.
 
 ## 5. SHARING OF INFORMATION
 
