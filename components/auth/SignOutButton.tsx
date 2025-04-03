@@ -3,10 +3,9 @@
 
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
 
 // Exportable sign out function
-export const handleSignOut = async (router: AppRouterInstance) => {
+export const handleSignOut = async (router: any) => {
   const supabase = createClient()
   await supabase.auth.signOut()
   router.refresh()
