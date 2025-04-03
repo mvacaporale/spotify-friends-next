@@ -15,6 +15,7 @@ import {
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
+import  DeleteUserButton from '@/components/auth/DeleteUserButton';
 import SpotifyButton from '@/components/auth/SpotifyButton';
 import SignOutButton from '@/components/auth/SignOutButton';
 import { useSearchParams } from 'next/navigation'
@@ -253,10 +254,16 @@ function HomeContent() {
                 </div>
                 <div className="flex justify-center">
                   <SignOutButton />
+
+                </div>
+                <div className="flex justify-center mt-12">
+                  <DeleteUserButton userId={`${user.id}`}/>
                 </div>
               </>
+              
             ) }
         </div>
+        
       </section>
 
       {/* Support section */}
