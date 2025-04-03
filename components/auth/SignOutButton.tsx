@@ -4,8 +4,11 @@
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
+// Define a more generic router type or use the return type of useRouter
+type Router = ReturnType<typeof useRouter>
+
 // Exportable sign out function
-export const handleSignOut = async (router: any) => {
+export const handleSignOut = async (router: Router) => {
   const supabase = createClient()
   await supabase.auth.signOut()
   router.refresh()
