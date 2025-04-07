@@ -328,14 +328,14 @@ function HomeContent() {
           <div className="grid sm:grid-cols-2 gap-8">
             {[
               {
-                icon: Sparkles,
-                title: "Always Free",
-                content: "No subscription needed, just connect and enjoy",
+                icon: Sliders,
+                title: "Free Tier for Users",
+                content: "Free up to 3 follows and only 2$ per month for up to 20!",
               },
               {
-                icon: Sliders,
-                title: "Fully Customizable",
-                content: "Select which friends influence your weekly mix",
+                icon: Sparkles,
+                title: "Free for Artists",
+                content: "Artists get free accounts (but we don't allow paid promotions!)",
               },
             ].map((item, i) => (
               <div
