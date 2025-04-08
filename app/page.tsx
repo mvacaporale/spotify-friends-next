@@ -210,8 +210,10 @@ function HomeContent() {
                 <p className="mb-4 text-emerald-500">
                   {/* Join over {userCount.toLocaleString()} music lovers */}
                   {/* Join over 5 music lovers */}
-                  {followStatus === 'initiated' ? "You've been invited to follow your friends music!" : "Join over 5 music lovers"}
+                  {followStatus === 'initiated' ? "You've been invited to follow your friends music!" : "Note: this is still in development..."}
                 </p>
+                <p>Sign up for <a href="https://tinyurl.com/spotify-friends-interest" target="_blank" className="text-emerald-500">updates</a> to hear when this service is ready!</p>
+
                 <p className="text-sm text-neutral-500 mb-12">
                   By connecting, you agree to our{' '}
                   <a
@@ -227,6 +229,7 @@ function HomeContent() {
                   >
                     Privacy Policy
                   </a>
+
                 </p>
                 <img
                   src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png"
